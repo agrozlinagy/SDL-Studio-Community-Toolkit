@@ -56,15 +56,17 @@ namespace Sdl.Community.Toolkit.Core.Services
 			if (studioKey.GetValue("InstallLocation") != null)
 			{
 				var installLocation = studioKey.GetValue("InstallLocation").ToString();
-				var fullVersion = GetStudioFullVersion(installLocation);
+				if (System.IO.Directory.Exists(installLocation)) {  // otherwise registry entries left over from an incomplete uninstall could crash the program.
+					var fullVersion = GetStudioFullVersion(installLocation);
 
-				_installedStudioVersions.Add(new StudioVersion()
-				{
-					Version = version,
-					PublicVersion = publicVersion,
-					InstallPath = installLocation,
-					ExecutableVersion = new Version(fullVersion)
-				});
+					_installedStudioVersions.Add(new StudioVersion()
+					{
+						Version = version,
+						PublicVersion = publicVersion,
+						InstallPath = installLocation,
+						ExecutableVersion = new Version(fullVersion)
+					});
+				}
 			}
 		}
 
